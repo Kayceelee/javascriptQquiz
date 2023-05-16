@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<style>
+    #quiz {
+        width: 100%;
+        height: 100vh;
+    }
+    
+    .panel {
+        display: flex;
+        justify-content: center;
+        margin: 20px auto;
+        background-color: #fff;
+        padding: 20px 30px;
+        border-radius: 10px;
+        border: 2px solid aliceblue;
+        font-size: 20px;
+        font-weight: bold;
+        width: 50%;
+    }
+    
+    .question-container {
+        display: flex;
+        justify-content: center;
+        margin: 20px auto;
+        background-color: aliceblue;
+        border-radius: 10px;
+        width: 50%;
+        padding: 20px 30px;
+        font-size: 10px;
+        font-weight: bold;
+    }
+    
+    .option-container {
+        display: flex;
+        justify-content: center;
+        margin: 20px auto;
+        background-color: #fff;
+        border-radius: 10px;
+        width: 50%;
+        padding: 40px 30px;
+        font-size: 15px;
+        font-weight: bold;
+        border: 1px solid #ccc
+    }
+    
+    .navigation {
+        display: flex;
+        justify-content: center;
+        margin: 20px auto;
+        border-radius: 10px;
+        width: 50%;
+        padding: 10px 30px;
+    }
+    
+    .btn {
+        padding: 20px 45px;
+        border-radius: 10px;
+        outline: none;
+        border-style: none;
+        font-size: 10px;
+        font-weight: bold;
+    }
+</style>
+
+<body>
+    <div id="quiz">
+        <div class="panel">
+            <h2>JavaScript Quiz</h2>
+        </div>
+        <div class="question-container">
+            <p id="question"></p>
+        </div>
+        <div class="option-container" id="choices">
+            <input type="radio" name="option" value="1">
+
+            <label id="option1"></label><br>
+
+            <input type="radio" name="option" value="2">
+
+            <label id="option2"></label><br>
+
+            <input type="radio" name="option" value="3">
+
+            <label id="option3"></label><br>
+
+            <input type="radio" name="option" value="4">
+
+            <label id="option4"></label><br>
+        </div>
+        <div class="navigation">
+            <button class="btn" onclick="checkAnswer()">Submit</button>
+        </div>
+    </div>
+
+    <div id="result"></div>
+
+
+    <script>
+        // Quiz data
+        var quizData = [{
+            question: "What is the capital of France?",
+            options: ["London", "Paris", "Rome", "Madrid"],
+            answer: 2
+        }, {
+            question: "Which is the largest planet in our solar system?",
+            options: ["Venus", "Saturn", "Jupiter", "Mars"],
+            answer: 3
+        }, {
+            question: "What language is used for web development?",
+            options: ["Java", "Python", "HTML", "C++"],
+            answer: 3
+        }, {
+            question: "What is the capital of Germany?",
+            options: ["Berlin", "Hamburg", "Saxony", "Saarland"],
+            answer: 1
+        }];
+
+        // Variables
+        var currentQuestion = 0;
+        var score = 0;
+
+        // Function to load the current question
+        function loadQuestion() {
+            var quizElement = document.getElementById("quiz");
+            var questionElement = document.getElementById("question");
+            var optionElements = document.getElementsByTagName("label");
+
+            // Display current question and options
+            var currentQuizData = quizData[currentQuestion];
+            questionElement.textContent = currentQuizData.question;
+            for (var i = 0; i < optionElements.length; i++) {
+                optionElements[i].textContent = currentQuizData.options[i];
+            }
+        }
+
+        // Function to check the answer
+        function checkAnswer() {
+            var options = document.getElementsByName("option");
+            var selectedOption = 0;
+
+            for (var i = 0; i < options.length; i++) {
+                if (options[i].checked) {
+                    selectedOption = Number(options[i].value);
+                    break;
+                }
+            }
+
+            if (selectedOption === quizData[currentQuestion].answer) {
+                score++;
+            }
+
+            currentQuestion++;
+
+            if (currentQuestion < quizData.length) {
+                loadQuestion();
+            } else {
+                showResult();
+            }
+        }
+
+        // Function to show the final result
+        function showResult() {
+            var quizElement = document.getElementById("quiz");
+            var resultElement = document.getElementById("result");
+
+            quizElement.style.display = "none";
+            resultElement.innerHTML = "You scored " + score + " out of " + quizData.length;
+            resultElement.style.display = "block";
+        }
+
+        // Load the first question
+        loadQuestion();
+    </script>
+</body>
+
+</html>
